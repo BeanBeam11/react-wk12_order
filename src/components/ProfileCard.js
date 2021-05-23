@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Form, Input, Button } from "antd";
-import { logoutFromFirebase, updateUserInfo } from "../actions";
+import { logoutFromFirebase, updateUserInfo, requestOrderDetail } from "../actions";
 import { StoreContext } from "../store";
 
 const ProfileCard = () => {
@@ -24,6 +24,12 @@ const ProfileCard = () => {
     logoutFromFirebase(dispatch);
     history.push("/");
   };
+
+  const handleViewOrder = (id) => {
+    console.log(id)
+    requestOrderDetail(dispatch, id);
+  };
+
   return (
     <Form
       onFinish={handleUpdate}
@@ -118,6 +124,14 @@ const ProfileCard = () => {
           onClick={handleLogout}
         >
           Log out
+        </Button>
+        <Button
+          type=""
+          style={{ marginTop: "0.8rem" }}
+          className="login-form__button"
+          onClick={handleViewOrder}
+        >
+          View My Order
         </Button>
       </Form.Item>
     </Form>
