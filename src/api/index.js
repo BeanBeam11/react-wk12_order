@@ -117,6 +117,19 @@ export const getOrderByUser = async () => {
   return jsonOrders;
 }
 
+export const getOrderItemByUser = async () => {
+  const user = auth.currentUser.uid;
+  let jsonOrdersItem = [];
+
+  // QUERY Orders
+  const querySnapshot = await allOrdersCollectionRef.where("user", "==", user).get();
+  querySnapshot.forEach((doc) => {
+    jsonOrdersItem.push(doc.data().totalPrice);
+  });
+  console.log(jsonOrdersItem);
+  return jsonOrdersItem;
+}
+
 export const signOut = () => {
   auth.signOut();
 }

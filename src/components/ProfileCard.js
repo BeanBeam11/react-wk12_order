@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext,useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Form, Input, Button } from "antd";
-import { logoutFromFirebase, updateUserInfo, requestUserOrder } from "../actions";
+import { logoutFromFirebase, updateUserInfo, storeOrderId,storeOrderItem } from "../actions";
 import { StoreContext } from "../store";
 
 const ProfileCard = () => {
@@ -9,8 +9,13 @@ const ProfileCard = () => {
     state: {
       userSignin: { userInfo },
     },
+    state: {orderId:{orderres}},
+    state:{orderid},
+    state:{orderitem},
     dispatch,
   } = useContext(StoreContext);
+  console.log(orderid);
+  console.log(orderitem);
   const { displayName, email } = userInfo;
   const history = useHistory();
   const [form] = Form.useForm();
@@ -25,10 +30,29 @@ const ProfileCard = () => {
     history.push("/");
   };
 
-  const handleUserOrder = () => {
-    requestUserOrder(dispatch);
-    history.push("/Order/");
-  };
+  const vieworder = () => {
+    let id;
+    storeOrderItem(dispatch);
+    storeOrderId(dispatch);
+    setopen(!open);
+    console.log(id);
+    console.log(orderid);
+    // history.push("/placeorder");
+  }
+  const clickorderid=(id)=>{
+    console.log(id);
+    console.log(orderid[orderitem.indexOf(id)]);
+    history.push("/order/"+orderid[orderitem.indexOf(id)]);
+  }
+  const addnum=() => {
+    if(num<4){
+      setnum(num+1);
+    }
+    
+    console.log(num);
+  }
+  const [open,setopen]=useState(false);
+  const [num,setnum]=useState(0);
 
   return (
     <Form
@@ -129,10 +153,28 @@ const ProfileCard = () => {
           type=""
           style={{ marginTop: "0.8rem" }}
           className="login-form__button"
-          onClick={handleUserOrder}
+          onClick={vieworder}
         >
           View My Order
         </Button>
+        {open
+          ?(
+            
+            orderitem.map((id)=>
+            <div className="">
+              <Button 
+                style={{ marginTop: "0.8rem" }}
+                onClick={()=>clickorderid(id)}
+              >
+                Price: {id}
+              </Button>
+            </div>
+            )
+            
+          ):(
+            <div></div>
+          )
+        }
       </Form.Item>
     </Form>
   );

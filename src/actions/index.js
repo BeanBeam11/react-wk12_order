@@ -32,9 +32,8 @@ import {
   BEGIN_ORDER_DETAIL,
   SUCCESS_ORDER_DETAIL,
   FAIL_ORDER_DETAIL,
-  BEGIN_ORDER_USER,
-  SUCCESS_ORDER_USER,
-  FAIL_ORDER_USER
+  GET_ORDER_BY_USER,
+  GET_ORDER_ITEM_BY_USER
 } from "../utils/constants";
 
 import {
@@ -49,6 +48,7 @@ import {
   getOrderById,
   getOrderByUser,
   checkLoginApi,
+  getOrderItemByUser
 } from "../api";
 
 export const addCartItem = (dispatch, product, qty) => {
@@ -279,18 +279,31 @@ export const checkLogin = (dispatch) => {
   return isLogin;
 }
 
-export const requestUserOrder = async (dispatch, userId) => {
-  dispatch({ type: BEGIN_ORDER_USER });
-  try {
-    const userOrder = await getOrderByUser(userId);
+export const storeOrderId=async (dispatch) => {
+  try{
+    const userOrder =await getOrderByUser();
+    console.log(userOrder);
     dispatch({ 
-      type: SUCCESS_ORDER_USER,
-      payload: userOrder
+      type:GET_ORDER_BY_USER,
+      payload:userOrder
     });
-  } catch (error) {
+    return userOrder;
+  }catch (error) {
+   
+    console.error(error);
+  }
+}
+export const storeOrderItem=async (dispatch) => {
+  try{
+    const userOrderItem =await getOrderItemByUser();
+    console.log(userOrderItem );
     dispatch({ 
-      type: FAIL_ORDER_USER, 
-      payload: error 
+      type:GET_ORDER_ITEM_BY_USER,
+      payload:userOrderItem 
     });
+    return userOrderItem ;
+  }catch (error) {
+   
+    console.error(error);
   }
 }
