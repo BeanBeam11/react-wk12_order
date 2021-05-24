@@ -34,6 +34,9 @@ import {
   BEGIN_ORDER_DETAIL,
   SUCCESS_ORDER_DETAIL,
   FAIL_ORDER_DETAIL,
+  BEGIN_ORDER_USER,
+  SUCCESS_ORDER_USER,
+  FAIL_ORDER_USER
 } from "../utils/constants";
 
 export const StoreContext = createContext();
@@ -114,6 +117,11 @@ const initialState = {
     userInfo: null,
     error: "",
   },
+  orderUser: {
+    loading: true,
+    order: { cartItems: []},
+    error: null,
+  }
 };
 
 function reducer(state, action) {
@@ -359,6 +367,33 @@ function reducer(state, action) {
         ...state,
         orderDetail: {
           ...state.orderDetail,
+          loading: false,
+          error: action.payload,
+        },
+      };
+      //
+      case BEGIN_ORDER_USER:
+      return {
+        ...state,
+        orderUser: {
+          ...state.orderUser,
+          loading: true,
+        }
+      };
+    case SUCCESS_ORDER_USER:
+      return {
+        ...state,
+        orderUser: {
+          ...state.orderUser,
+          loading: false,
+          order: action.payload,
+        },
+      };
+    case FAIL_ORDER_USER:
+      return {
+        ...state,
+        orderUser: {
+          ...state.orderUser,
           loading: false,
           error: action.payload,
         },

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Form, Input, Button } from "antd";
-import { logoutFromFirebase, updateUserInfo, requestOrderDetail } from "../actions";
+import { logoutFromFirebase, updateUserInfo, requestUserOrder } from "../actions";
 import { StoreContext } from "../store";
 
 const ProfileCard = () => {
@@ -25,9 +25,9 @@ const ProfileCard = () => {
     history.push("/");
   };
 
-  const handleViewOrder = (id) => {
-    console.log(id)
-    requestOrderDetail(dispatch, id);
+  const handleUserOrder = () => {
+    requestUserOrder(dispatch);
+    history.push("/Order/");
   };
 
   return (
@@ -129,7 +129,7 @@ const ProfileCard = () => {
           type=""
           style={{ marginTop: "0.8rem" }}
           className="login-form__button"
-          onClick={handleViewOrder}
+          onClick={handleUserOrder}
         >
           View My Order
         </Button>

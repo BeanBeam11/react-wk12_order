@@ -32,6 +32,9 @@ import {
   BEGIN_ORDER_DETAIL,
   SUCCESS_ORDER_DETAIL,
   FAIL_ORDER_DETAIL,
+  BEGIN_ORDER_USER,
+  SUCCESS_ORDER_USER,
+  FAIL_ORDER_USER
 } from "../utils/constants";
 
 import {
@@ -44,6 +47,7 @@ import {
   updateUserInfoApi,
   createOrderApi,
   getOrderById,
+  getOrderByUser,
   checkLoginApi,
 } from "../api";
 
@@ -273,4 +277,20 @@ export const checkLogin = (dispatch) => {
     dispatch({ type: LOGOUT_REQUEST });    
   }
   return isLogin;
+}
+
+export const requestUserOrder = async (dispatch, userId) => {
+  dispatch({ type: BEGIN_ORDER_USER });
+  try {
+    const userOrder = await getOrderByUser(userId);
+    dispatch({ 
+      type: SUCCESS_ORDER_USER,
+      payload: userOrder
+    });
+  } catch (error) {
+    dispatch({ 
+      type: FAIL_ORDER_USER, 
+      payload: error 
+    });
+  }
 }

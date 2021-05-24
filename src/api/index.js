@@ -113,6 +113,7 @@ export const getOrderByUser = async () => {
   querySnapshot.forEach((doc) => {
     jsonOrders.push(doc.data());
   });
+  console.log(jsonOrders);
   return jsonOrders;
 }
 
