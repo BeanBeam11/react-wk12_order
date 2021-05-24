@@ -111,12 +111,11 @@ export const getOrderByUser = async () => {
   // QUERY Orders
   const querySnapshot = await allOrdersCollectionRef.where("user", "==", user).get();
   querySnapshot.forEach((doc) => {
-    jsonOrders.push(doc.data());
+    jsonOrders.push(doc.data().id);
   });
   console.log(jsonOrders);
   return jsonOrders;
 }
-
 export const getOrderItemByUser = async () => {
   const user = auth.currentUser.uid;
   let jsonOrdersItem = [];
@@ -129,7 +128,6 @@ export const getOrderItemByUser = async () => {
   console.log(jsonOrdersItem);
   return jsonOrdersItem;
 }
-
 export const signOut = () => {
   auth.signOut();
 }
@@ -138,4 +136,3 @@ export const checkLoginApi = () => {
   const user = auth.currentUser;
   return user.uid?  true : false;
 }
-
